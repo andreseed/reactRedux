@@ -1,6 +1,7 @@
 import React from "react";
 import timezones from "../../data/timezones";
 import map from "lodash/map";
+import PropTypes from 'prop-types';
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class SignupForm extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    //axios.post('/api/users', { user: this.state });
+    this.props.userSignupRequest(this.state);
   }
 
   render() {
@@ -69,7 +71,7 @@ class SignupForm extends React.Component {
         </div>
 
         <div className="form-group">
-          <label className="control-label">Confirme a Senha:</label>
+          <label className="control-label">Confirme a Senha</label>
           <input
             value={this.state.passwordConfirmation}
             onChange={this.onChange}
@@ -87,7 +89,7 @@ class SignupForm extends React.Component {
             onChange={this.onChange}
             value={this.state.timezone}
           >
-            <option value="" disabled>
+            <option value="" >
               Escolha seu fuso horário
             </option>
             {options}
@@ -100,6 +102,10 @@ class SignupForm extends React.Component {
       </form>
     );
   }
+}
+
+SignupForm.propTypes = {
+    userSignupRequest: PropTypes.func.isRequired //React.PropTypes.func.isRequired
 }
 
 export default SignupForm;
