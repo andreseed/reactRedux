@@ -6,12 +6,12 @@ export default () => {
         <nav className="navbar navbar-default">
             <div className="container-fluid">
                 <div className="navbar-header">
-                    <Link to="/" className="navbar-brand">Red Dice</Link>
+                    <Link to="/" className="navbar-brand">Principal</Link>
                 </div>
 
                 <div className="collapse navbar-collapse">
                     <ul className="nav navbar-nav navbar-right">
-                        <li><Link to="/signup" >Sign Up</Link></li>
+                        <li><Link to="/signup" >Acesso</Link></li>
                     </ul>
                 </div>
             </div>
