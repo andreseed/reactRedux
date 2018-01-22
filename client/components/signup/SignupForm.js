@@ -3,8 +3,8 @@ import timezones from "../../data/timezones";
 import map from "lodash/map";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import validateInput from '../../../server/shared/validations/signup';
-import TextFieldGroup from '../common/TextFieldGroup';
+import validateInput from "../../../server/shared/validations/signup";
+import TextFieldGroup from "../common/TextFieldGroup";
 
 class SignupForm extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class SignupForm extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
-
+  
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
@@ -37,14 +37,18 @@ class SignupForm extends React.Component {
     e.preventDefault();
 
     if (this.isValid()) {
-      this.setState({ errors: {}, isLoading:true });
-      this.props
-        .userSignupRequest(this.state)
-          .then(() => {}, ({ data }) => this.setState({ errors: data, isLoading: false }));
+      this.setState({ errors: {}, isLoading: true });
+      this.props.userSignupRequest(this.state).then(
+        () => {
+          this.props.history.push("/");
+        },
+        ({ data }) => this.setState({ errors: data, isLoading: false })
+      );
     }
   }
 
   render() {
+    const { history } = this.props;
     const { errors } = this.state;
     const options = map(timezones, (val, key) => (
       <option key={val} value={val}>
@@ -70,8 +74,9 @@ class SignupForm extends React.Component {
           onChange={this.onChange}
           value={this.state.email}
           field="email"
+          type="email"
         />
-        
+
         <TextFieldGroup
           error={errors.password}
           label="Senha"
@@ -80,7 +85,7 @@ class SignupForm extends React.Component {
           type="password"
           field="password"
         />
-        
+
         <TextFieldGroup
           error={errors.passwordConfirmation}
           label="Confirmação de Senha"
@@ -89,17 +94,27 @@ class SignupForm extends React.Component {
           type="password"
           field="passwordConfirmation"
         />
-        
+
         <div className="form-group">
           <label className="control-label">Timezone</label>
-          <select className="form-control" name="timezone" onChange={this.onChange} value={this.state.timezone}>
+          <select
+            className="form-control"
+            name="timezone"
+            onChange={this.onChange}
+            value={this.state.timezone}
+          >
             <option value="">Escolha seu fuso horário</option>
             {options}
           </select>
         </div>
 
         <div className="form-group">
-          <button disabled={this.state.isLoading} className="btn btn-primary btn-lg">Entrar</button>
+          <button
+            disabled={this.state.isLoading}
+            className="btn btn-primary btn-lg"
+          >
+            Entrar
+          </button>
         </div>
       </form>
     );
@@ -107,7 +122,8 @@ class SignupForm extends React.Component {
 }
 
 SignupForm.propTypes = {
-  userSignupRequest: PropTypes.func.isRequired
+  userSignupRequest: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 export default SignupForm;

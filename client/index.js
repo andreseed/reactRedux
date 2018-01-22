@@ -1,13 +1,10 @@
 import React from "react";
 import { render } from "react-dom";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 
-import App from "./components/App";
-import Greetings from "./components/Greetings";
-import SignupPage from "./components/signup/SignupPage";
+import routes from "./routes";
 
 const store = createStore(
     (state = {}) => state,
@@ -16,14 +13,7 @@ const store = createStore(
 
 render(
   <Provider store={store}>
-    <Router>
-      <App>
-        <Switch>
-          <Route exact path="/" component={Greetings} />
-          <Route path="/signup" component={SignupPage} />
-        </Switch>
-      </App>
-    </Router>
+    {routes}
   </Provider>,
   document.getElementById("app")
 );
